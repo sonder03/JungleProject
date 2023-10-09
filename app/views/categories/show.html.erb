@@ -1,5 +1,4 @@
 <section class="categories-show">
-
   <header class="page-header">
     <h1>
       <%= @category.name %>
@@ -8,7 +7,41 @@
   </header>
 
   <div class="products">
-    <%= render @products %>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="2">Product</th>
+          <th>Unit Price</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td>
+              <%= image_tag product.image.url %>
+            </td>
+            <td>
+              <h4><%= product.name %></h4>
+              <!-- Add other product details here -->
+            </td>
+            <td>
+              <%= number_to_currency(product.price) %>
+            </td>
+            <td>
+              <% if product.quantity.zero? %>
+                <span class="sold-out-badge">Sold Out</span>
+              <% else %>
+                <%= pluralize(product.quantity, 'in stock') %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to 'View', product_path(product) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-
 </section>
